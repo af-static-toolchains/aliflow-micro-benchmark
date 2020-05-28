@@ -1,0 +1,43 @@
+<com.alipay.infoflow.micro.code.basic.SourceSink: java.lang.String fromSource()> -> _SOURCE_
+<com.alipay.infoflow.micro.code..basic.SourceSink: void toSink(java.lang.String)> -> _SINK_
+
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink: java.lang.String uuid> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink: java.lang.String name> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink: java.lang.String rid> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink: java.lang.Integer id> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink: com.alipay.infoflow.micro.code.sofa.dataobject.SampleDO.SampleType type> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink: com.alipay.infoflow.micro.code.sofa.dataobject.SampleCategory category> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSink: java.lang.String rid> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSink: java.lang.String name> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSink: java.lang.String uuid> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSink: java.lang.Integer id> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSink: java.lang.String type> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSink: com.alipay.infoflow.micro.code.sofa.dataobject.SampleCategory category> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSource: java.lang.String rid> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSource: java.lang.String name> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSource: java.lang.String uuid> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSource: java.lang.Integer id> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSource: java.lang.String type> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTOWrapSource: com.alipay.infoflow.micro.code.sofa.dataobject.SampleCategory category> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource: java.lang.String uuid> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource: java.lang.String name> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource: java.lang.String rid> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource: java.lang.Integer id> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource: com.alipay.infoflow.micro.code.sofa.dataobject.SampleDO.SampleType type> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource: com.alipay.infoflow.micro.code.sofa.dataobject.SampleCategory category> -> _SOURCE_
+
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultSubSink: int code> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultSubSink: boolean success> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultSubSink: java.lang.Object value> -> _SINK_
+
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultSubSource: int code> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultSubSource: boolean success> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultSubSource: java.lang.Object value> -> _SOURCE_
+
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSource: int code> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSource: boolean success> -> _SOURCE_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSource: java.lang.Object value> -> _SOURCE_
+
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSink: int code> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSink: boolean success> -> _SINK_
+<com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSink: java.lang.Object value> -> _SINK_
