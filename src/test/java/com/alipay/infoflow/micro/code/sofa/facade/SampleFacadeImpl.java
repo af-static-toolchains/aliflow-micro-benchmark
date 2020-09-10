@@ -1,12 +1,18 @@
 package com.alipay.infoflow.micro.code.sofa.facade;
 
-import com.alipay.infoflow.micro.code.sofa.*;
+import com.alipay.infoflow.micro.code.sofa.Callback;
+import com.alipay.infoflow.micro.code.sofa.ReferenceService;
+import com.alipay.infoflow.micro.code.sofa.ReferenceServiceSub;
+import com.alipay.infoflow.micro.code.sofa.SampleService;
+import com.alipay.infoflow.micro.code.sofa.SampleServiceImpl;
 import com.alipay.infoflow.micro.code.sofa.dataobject.SampleBO;
+import com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSink;
 import com.alipay.infoflow.micro.code.sofa.dataobject.SampleDOSubSource;
 import com.alipay.infoflow.micro.code.sofa.dataobject.SampleDTO;
 import com.alipay.infoflow.micro.code.sofa.dataobject.SampleResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +36,28 @@ public class SampleFacadeImpl implements SampleFacade {
             return null;
         }
         return sampleBO.toDto();
+    }
+
+    @Override
+    public List<SampleDTO> queryByIdListMap(Integer id) {
+        return execute(new Callback<List<SampleDTO>>() {
+            @Override
+            public List<SampleDTO> query() {
+                List<SampleBO> sampleBOList = Arrays.asList(sampleService.queryById(id));
+                return sampleBOList.stream().map(bo -> bo.toDto()).collect(Collectors.toList());
+            }
+        });
+    }
+
+    @Override
+    public List<SampleDTO> queryByName2Map(Integer id) {
+        return execute(new Callback<List<SampleDTO>>() {
+            @Override
+            public List<SampleDTO> query() {
+                List<SampleBO> sampleBOList = sampleService.queryByName2("");
+                return sampleBOList.stream().map(bo -> bo.toDto()).collect(Collectors.toList());
+            }
+        });
     }
 
     @Override
@@ -75,6 +103,39 @@ public class SampleFacadeImpl implements SampleFacade {
         }
         //return sampleService.resolve(sampleDtos.stream().map(sample -> SampleBO.fromDto(sample)).collect(Collectors.toList()));
         return sampleService.resolve(sampleBOS);
+    }
+
+
+    @Override
+    public int resolveMap(List<SampleDTO> sampleDtos) {
+        if (null == sampleDtos) {
+            return 0;
+        }
+        boToDOSubSink(
+                execute(new Callback<List<SampleBO>>() {
+                    @Override
+                    public List<SampleBO> query() {
+                        return sampleDtos.stream().map(sample -> SampleBO.fromDto(sample)).collect(Collectors.toList());
+                    }
+                }));
+        return 0;
+    }
+    @Override
+    public int resolveMap2(List<SampleDTO> sampleDtos) {
+        if (null == sampleDtos) {
+            return 0;
+        }
+        boToDOSubSink(execute(new Callback<List<SampleBO>>() {
+            @Override
+            public List<SampleBO> query() {
+                return sampleDtos.stream().map(sample ->{
+                    SampleBO sampleBO = SampleBO.fromDto(sample);
+                    //sampleBO.setRid(null);
+                    return sampleBO;
+                }).collect(Collectors.toList());
+            }
+        }));
+        return 0;
     }
 
     @Override
@@ -129,5 +190,32 @@ public class SampleFacadeImpl implements SampleFacade {
 
     private <T> T execute(Callback<T> callback) {
         return callback.query();
+    }
+
+    private void toDOSubSink(List<SampleDTO> sampleDTOList) {
+        for (SampleDTO sampleDTO : sampleDTOList) {
+            toDOSubSink(sampleDTO);
+        }
+    }
+    private void toDOSubSink(SampleDTO sampleDTO) {
+        SampleDOSubSink sampleDOSubSink = new SampleDOSubSink();
+        sampleDOSubSink.category = sampleDTO.getCategory();
+        sampleDOSubSink.id = sampleDTO.getId();
+        sampleDOSubSink.name = sampleDTO.getName();
+        sampleDOSubSink.rid = sampleDTO.getRid();
+        sampleDOSubSink.uuid = sampleDTO.getUuid();
+    }
+    private void boToDOSubSink(List<SampleBO> sampleBOList) {
+        for (SampleBO sampleBO : sampleBOList) {
+            toDOSubSink(sampleBO);
+        }
+    }
+    private void toDOSubSink(SampleBO sampleBO) {
+        SampleDOSubSink sampleDOSubSink = new SampleDOSubSink();
+        sampleDOSubSink.category = sampleBO.getCategory();
+        sampleDOSubSink.id = sampleBO.getId();
+        sampleDOSubSink.name = sampleBO.getName();
+        sampleDOSubSink.rid = sampleBO.getRid();
+        sampleDOSubSink.uuid = sampleBO.getUuid();
     }
 }

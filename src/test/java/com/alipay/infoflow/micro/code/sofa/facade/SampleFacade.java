@@ -23,6 +23,18 @@ public interface SampleFacade {
     SampleDTO queryById(Integer id);
 
     /**
+     * queryByName2Map
+     * @param id
+     * @return
+     */
+    List<SampleDTO> queryByName2Map(Integer id);
+    /**
+     * queryByIdListMap
+     * @param id
+     * @return
+     */
+    List<SampleDTO> queryByIdListMap(Integer id);
+    /**
      * query by ?
      * @param id
      * @param name
@@ -64,6 +76,18 @@ public interface SampleFacade {
      * @return
      */
     int resolve(List<SampleDTO> sampleDtos);
+    /**
+     * 批量保存
+     * @param sampleDtos
+     * @return
+     */
+    int resolveMap(List<SampleDTO> sampleDtos);
+    /**
+     * 批量保存
+     * @param sampleDtos
+     * @return
+     */
+    int resolveMap2(List<SampleDTO> sampleDtos);
 
     /**
      * 通过name更新rid

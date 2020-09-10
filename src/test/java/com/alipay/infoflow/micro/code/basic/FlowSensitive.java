@@ -1,9 +1,5 @@
 package com.alipay.infoflow.micro.code.basic;
 
-import com.alipay.infoflow.micro.code.basic.MyObject;
-import com.alipay.infoflow.micro.code.basic.MyOuterObject1;
-import com.alipay.infoflow.micro.code.basic.SourceSink;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +63,13 @@ public class FlowSensitive {
     b.inner = a; // { b.inner = a }
     taintIt(a);
 
+    SourceSink.toSink(b.getInner().fetchValue());
+  }
+  public void testAddToObjectOrder3(){
+    MyOuterObject1 b = new MyOuterObject1();
+    MyObject a = new MyObject();
+    b.inner = a;
+    a.value = SourceSink.fromSource();
     SourceSink.toSink(b.getInner().fetchValue());
   }
   public void testAddToObjectOrder1(){

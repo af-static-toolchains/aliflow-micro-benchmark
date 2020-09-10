@@ -5,7 +5,6 @@ import com.alipay.infoflow.util.TestConfig;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
 @Ignore
 public class FlowSensitiveTest {
   @Test
@@ -52,7 +51,7 @@ public class FlowSensitiveTest {
   /**
    * map container lambda double get
    */
-  @Test
+  @Test @Ignore
   public void testAddToContainerOrder5() {
     int actual = TestConfig.getDefault()
         .setResultRootDir("./work/FlowSensitiveTest#testAddToContainerOrder5")
@@ -77,7 +76,7 @@ public class FlowSensitiveTest {
         .run().getResultSize();
     Assert.assertEquals(1, actual);
   }
-  @Test
+  @Test @Ignore
   public void testAddToObjectOrder2() {
     int actual = TestConfig.getDefault()
         .setResultRootDir("./work/FlowSensitiveTest#testAddToObjectOrder2")
@@ -85,7 +84,14 @@ public class FlowSensitiveTest {
         .run().getResultSize();
     Assert.assertEquals(1, actual);
   }
-  //pass
+  @Test
+  public void testAddToObjectOrder3() {
+    int actual = TestConfig.getDefault()
+        .setResultRootDir("./work/FlowSensitiveTest#testFlowsensitive3")
+        .rewriteEntrypoints("<"+ FlowSensitive.class.getName() +": void testAddToObjectOrder3()>\n")
+        .run().getResultSize();
+    Assert.assertEquals(1, actual);
+  }
   @Test
   public void testFlowsensitive() {
     int actual = TestConfig.getDefault()

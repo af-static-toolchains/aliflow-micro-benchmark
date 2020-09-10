@@ -12,8 +12,11 @@ import com.alipay.infoflow.micro.code.sofa.dataobject.SampleResult;
 import com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSink;
 import com.alipay.infoflow.micro.code.sofa.dataobject.SampleResultWrapSource;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * SampleFacadeImpl
@@ -59,6 +62,106 @@ public class SampleFacadeImplWrap {
             sink.category = dto.getCategory();
             dtoSinks.add(sink);
         }
+    }
+    public void queryByIdListMap(int id) {
+        List sampleDTOS = entryService.queryByName2Map(id);
+        List dtoSinks = new ArrayList();
+        for (Object dtoObject : sampleDTOS) {
+            SampleDTO dto = (SampleDTO) dtoObject;
+            SampleDTOWrapSink sink = new SampleDTOWrapSink();
+            sink.id = dto.getId();
+            sink.rid = dto.getRid();
+            sink.uuid = dto.getUuid();
+            dtoSinks.add(sink);
+        }
+    }
+    public void queryByName2Map(int id) {
+        List sampleDTOS = entryService.queryByName2Map(id);
+        List dtoSinks = new ArrayList();
+        for (Object dtoObject : sampleDTOS) {
+            SampleDTO dto = (SampleDTO) dtoObject;
+            SampleDTOWrapSink sink = new SampleDTOWrapSink();
+            sink.id = dto.getId();
+            sink.name = dto.getName();
+            sink.uuid = dto.getUuid();
+            dtoSinks.add(sink);
+        }
+    }
+
+    public void queryByNameMapReflect(String name) {
+        List sampleDTOS = entryService.queryByName(name);
+        List<SampleDTO> sampleDtoFromMapList = new ArrayList<>();
+        List<Map<String, Object>> dtoMaps = wrapMap(sampleDTOS);
+        for (Map<String, Object> dtoMap : dtoMaps) {
+            SampleDTO dto2 = new SampleDTO();
+            unwrapMapToDTO(dtoMap, dto2);
+            sampleDtoFromMapList.add(dto2);
+        }
+        List dtoSinks = new ArrayList();
+        for (Object dtoObject : sampleDtoFromMapList) {
+            SampleDTO dto = (SampleDTO) dtoObject;
+            SampleDTOWrapSink sink = new SampleDTOWrapSink();
+            sink.id = dto.getId();
+            sink.name = dto.getName();
+            sink.rid = dto.getRid();
+            sink.uuid = dto.getUuid();
+            sink.type = dto.getType();
+            sink.category = dto.getCategory();
+            dtoSinks.add(sink);
+        }
+    }
+    public void queryByNameMapReflect2(String name) {
+        List sampleDTOS = entryService.queryByName(name);
+        List<SampleDTO> sampleDtoFromMapList = new ArrayList<>();
+        List<Map<String, Object>> dtoMaps = wrapMap(sampleDTOS);
+        for (Map<String, Object> dtoMap : dtoMaps) {
+            SampleDTO dto2 = new SampleDTO();
+            unwrapMapToDTO(dtoMap, dto2);
+            sampleDtoFromMapList.add(dto2);
+        }
+        List dtoSinks = new ArrayList();
+        for (Object dtoObject : sampleDtoFromMapList) {
+            SampleDTO dto = (SampleDTO) dtoObject;
+            SampleDTOWrapSink sink = new SampleDTOWrapSink();
+            sink.id = dto.getId();
+            sink.name = dto.getName();
+            sink.rid = dto.getRid();
+            sink.uuid = dto.getUuid();
+            sink.type = dto.getType();
+            sink.category = dto.getCategory();
+            dtoSinks.add(sink);
+        }
+    }
+
+    private void unwrapMapToDTO(Map<String, Object> dtoMap, SampleDTO dto2) {
+        for (Field field : SampleDTO.class.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                field.set(dto2, dtoMap.get(field.getName()));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private List<Map<String, Object>> wrapMap(List sampleDTOS) {
+        List<Map<String, Object>> dtoMaps = new ArrayList<>();
+        for (Object sampleDTO : sampleDTOS) {
+            Map<String, Object> dtoMap = wrapMap((SampleDTO) sampleDTO);
+            dtoMaps.add(dtoMap);
+        }
+        return dtoMaps;
+    }
+
+    private Map<String, Object> wrapMap(SampleDTO sampleDTO) {
+        SampleDTO dto = sampleDTO;
+        Map<String, Object> dtoMap = new HashMap<>();
+        dtoMap.put("name", dto.getName());
+        dtoMap.put("category", dto.getCategory());
+        dtoMap.put("rid", dto.getRid());
+        dtoMap.put("uuid", dto.getUuid());
+        dtoMap.put("type", dto.getType());
+        return dtoMap;
     }
 
     public void queryByCallback1(Integer id, String name) {
@@ -210,6 +313,40 @@ public class SampleFacadeImplWrap {
             dtoList.add(dto);
         }
         entryService.resolve(dtoList);
+    }
+    public void resolveMap(List<SampleDTO> sampleDtos) {
+        List sourceList = new ArrayList();
+        sourceList.add(new SampleDTOWrapSource());
+        List dtoList = new ArrayList();
+        for (Object dtoSource : sourceList) {
+            SampleDTOWrapSource source = (SampleDTOWrapSource) dtoSource;
+            SampleDTO dto = new SampleDTO();
+            dto.setId(source.id);
+            dto.setName(source.name);
+            dto.setRid(source.rid);
+            dto.setUuid(source.uuid);
+            dto.setType(source.type);
+            dto.setCategory(source.category);
+            dtoList.add(dto);
+        }
+        entryService.resolveMap(dtoList);
+    }
+    public void resolveMap2(List<SampleDTO> sampleDtos) {
+        List sourceList = new ArrayList();
+        sourceList.add(new SampleDTOWrapSource());
+        List dtoList = new ArrayList();
+        for (Object dtoSource : sourceList) {
+            SampleDTOWrapSource source = (SampleDTOWrapSource) dtoSource;
+            SampleDTO dto = new SampleDTO();
+            dto.setId(source.id);
+            dto.setName(source.name);
+            dto.setRid(source.rid);
+            dto.setUuid(source.uuid);
+            dto.setType(source.type);
+            dto.setCategory(source.category);
+            dtoList.add(dto);
+        }
+        entryService.resolveMap2(dtoList);
     }
 
     public void updateRid(String name, String rid) {

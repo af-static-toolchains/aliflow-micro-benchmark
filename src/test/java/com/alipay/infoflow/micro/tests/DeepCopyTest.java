@@ -10,7 +10,7 @@ public class DeepCopyTest {
   @Test
   public void testDeepCopy1() {
     int actual = TestConfig.getDefault()
-        .setResultRootDir("./work/testDeepCopy1")
+        .setResultRootDir("./work/DeepCopyTest#testDeepCopy1")
         .rewriteEntrypoints("<"+ DeepCopy.class.getName() +": void testDeepCopy()>\n")
         .run().getResultSize();
     Assert.assertEquals(1, actual);
@@ -18,7 +18,7 @@ public class DeepCopyTest {
   @Test
   public void testDeepCopy2() {
     int actual = TestConfig.getDefault()
-        .setResultRootDir("./work/testDeepCopy1")
+        .setResultRootDir("./work/DeepCopyTest#testDeepCopy1")
         .rewriteEntrypoints("<"+DeepCopy.class.getName()+": void testDeepCopy2()>\n")
         .run().getResultSize();
     Assert.assertEquals(1, actual);

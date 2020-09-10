@@ -12,19 +12,20 @@ import org.junit.runner.RunWith;
 
 /**
  * SampleTaintTest
- *
- * @author wb-zg494440
- * @version $Id: SampleTaintTest.java, v 0.1 2019/11/12 20:09 wb-zg494440 Exp $
- * date 2019/11/12
  */
 @RunWith(TestRunner.class)
 public class SofaTaintTest {
     private static final String QUERY_BY_ID            = "<"+ SampleFacadeImplWrap.class.getName()+": void queryById(java.lang.Integer)>\n";
     private static final String QUERY_BY_NAME          = "<"+ SampleFacadeImplWrap.class.getName()+": void queryByName(java.lang.String)>\n";
+    private static final String QUERY_BY_NAME_MAP_REFLECT = "<"+ SampleFacadeImplWrap.class.getName()+": void queryByNameMapReflect(java.lang.String)>\n";
     private static final String QUERY_BY_NAME2         = "<"+ SampleFacadeImplWrap.class.getName()+": void queryByName2(java.lang.String)>\n";
     private static final String QUERY_FOR_PAGE         = "<"+ SampleFacadeImplWrap.class.getName()+": void queryForPage(int,int)>\n";
     private static final String SINGLE_RESOLVE         = "<"+ SampleFacadeImplWrap.class.getName()+": void resolve("+ SampleDTO.class.getName() +")>\n";
     private static final String BATCH_RESOLVE          = "<"+ SampleFacadeImplWrap.class.getName()+": void resolve(java.util.List)>\n";
+    private static final String BATCH_RESOLVE_MAP          = "<"+ SampleFacadeImplWrap.class.getName()+": void resolveMap(java.util.List)>\n";
+    private static final String BATCH_RESOLVE_MAP2          = "<"+ SampleFacadeImplWrap.class.getName()+": void resolveMap2(java.util.List)>\n";
+    private static final String QUERY_MAP1          = "<"+ SampleFacadeImplWrap.class.getName()+": void queryByIdListMap(int)>\n";
+    private static final String QUERY_MAP2          = "<"+ SampleFacadeImplWrap.class.getName()+": void queryByName2Map(int)>\n";
     private static final String UPDATE_RID_BY_ID       = "<"+ SampleFacadeImplWrap.class.getName()+": void updateRid(java.lang.Integer,java.lang.String)>\n";
     private static final String UPDATE_RID_BY_NAME     = "<"+ SampleFacadeImplWrap.class.getName()+": void updateRid(java.lang.String,java.lang.String)>\n";
     private static final String QUERY_BY_NAME_RESULT   = "<"+ SampleFacadeImplWrap.class.getName()+": void queryByNameResult(java.lang.String)>\n";
@@ -55,7 +56,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * 只报出一条
      * 2020.2.13 pass
      */
     @Test
@@ -63,6 +63,19 @@ public class SofaTaintTest {
         int actual = TestConfig.getDefault()
             .setResultRootDir("./work/SofaTaintTest#queryByNameTaint")
             .rewriteEntrypoints(QUERY_BY_NAME)
+            .run()
+            .getResultSize();
+        Assert.assertEquals(5, actual);
+    }
+    /**
+     * 2020.2.13 pass
+     */
+    @Test
+    public void queryByNameMapReflectTaint() {
+        int actual = TestConfig.getDefault()
+            .setResultRootDir("./work/SofaTaintTest#queryByNameMapReflect")
+            .rewriteEntrypoints(QUERY_BY_NAME_MAP_REFLECT)
+            .setLogLevelDebug(true)
             .run()
             .getResultSize();
         Assert.assertEquals(5, actual);
@@ -82,7 +95,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * 问题: 只报出rid和uuid两条path
      * 2020.2.13 pass
      */
     @Test
@@ -96,8 +108,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * 问题: sourceMethod与sinkMethod与实际path不符
-     * 如: 从 SampleDaoImpl.queryById -> SampleFacadeImplWrap.queryByName  是错误的一条path
      * 2020.2.13 pass
      */
     @Test
@@ -124,8 +134,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * 问题: 无结果  ,found 6 sources and 5 sinks, Obtainted 1 connections between sources and sinks 5times
-     * 2020.2.12 no sources found
      * 2020.2.13 pass
      */
     @Test
@@ -136,6 +144,73 @@ public class SofaTaintTest {
             .run()
             .getResultSize();
         Assert.assertEquals(10, actual);
+    }
+
+    /**
+     */
+    @Test
+    public void batchResolveMap(){
+        int actual = TestConfig.getDefault()
+            .setResultRootDir("./work/SofaTaintTest#batchResolveMap")
+            .rewriteEntrypoints(BATCH_RESOLVE_MAP)
+            .run()
+            .getResultSize();
+        Assert.assertEquals(5, actual);
+    }
+    /**
+     */
+    @Test
+    public void batchResolveMap2(){
+        int actual = TestConfig.getDefault()
+            .setResultRootDir("./work/SofaTaintTest#batchResolveMap2")
+            .rewriteEntrypoints(BATCH_RESOLVE_MAP2)
+            .run()
+            .getResultSize();
+        Assert.assertEquals(5, actual);
+    }
+    /**
+     */
+    @Test
+    public void batchResolveMapAll(){
+        int actual = TestConfig.getDefault()
+                .setResultRootDir("./work/SofaTaintTest#batchResolveMapAll")
+                .rewriteEntrypoints(BATCH_RESOLVE_MAP + BATCH_RESOLVE_MAP2)
+                .run()
+                .getResultSize();
+        Assert.assertEquals(10, actual);
+    }
+    /**
+     */
+    @Test
+    public void QUERY_MAP1(){
+        int actual = TestConfig.getDefault()
+                .setResultRootDir("./work/SofaTaintTest#queryMap1")
+                .rewriteEntrypoints(QUERY_MAP1)
+                .run()
+                .getResultSize();
+        Assert.assertEquals(3, actual);
+    }
+    /**
+     */
+    @Test
+    public void QUERY_MAP2(){
+        int actual = TestConfig.getDefault()
+                .setResultRootDir("./work/SofaTaintTest#queryMap2")
+                .rewriteEntrypoints(QUERY_MAP2)
+                .run()
+                .getResultSize();
+        Assert.assertEquals(3, actual);
+    }
+    /**
+     */
+    @Test
+    public void QUERY_MAPAll(){
+        int actual = TestConfig.getDefault()
+                .setResultRootDir("./work/SofaTaintTest#queryMapAll")
+                .rewriteEntrypoints(QUERY_MAP1 + QUERY_MAP2)
+                .run()
+                .getResultSize();
+        Assert.assertEquals(6, actual);
     }
 
     /**
@@ -153,7 +228,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * found connections 8 lines
      * 2020.2.13 pass
      */
     @Test
@@ -167,8 +241,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * 问题: 无论DOSub的ID是否为null，sink method都是insert 【已解决】
-     * found connections 5 lines
      * 2020.2.13 pass
      */
     @Test
@@ -182,10 +254,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * rid是外部传入,type有枚举转换不算应有8条path
-     * 实际9条path
-     * SampleDaoImpl.queryById -> SampleDaoImpl.insert 的rid 字段误报
-     * found connections 9 lines
      * 2020.2.13 pass
      * 2020.2.14 pass [expected should be 18]
      */
@@ -200,10 +268,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * Object result return expect 6 path
-     * 2019.12.10 found 5 path, omission 1 path( ext)
-     * 2020.2.12 found connection 5 lines found 5 path
-     * FIXME later samples.stream().findFirst().ifPresent(s -> result.getExt().put("rid", s.getRid()));
      */
     @Test
     public void queryByNameResult(){
@@ -216,8 +280,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * Object result argument expect 4 path
-     * found connection 5 lines found 5 path
      * 2020.2.13 pass
      */
     @Test
@@ -231,10 +293,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * service reference write   include map expect 5 path
-     * 2019.12.9 map那条path漏报
-     * 2020.2.12 found connection 5 lines found 5 path
-     * FIXME later samples.stream().findFirst().ifPresent(s -> result.getExt().put("rid", s.getRid()));
      */
     @Test
     public void resolveToReference(){
@@ -247,8 +305,6 @@ public class SofaTaintTest {
     }
 
     /**
-     * service reference write expect 4 path
-     * found connections 5 lines found 5 paths
      * 2020.2.13 pass
      */
     @Test
@@ -262,11 +318,8 @@ public class SofaTaintTest {
     }
 
     /**
-     * {@link SampleFacadeImplWrap#saveSampleByResult()}
-     * {@link SampleFacadeImplWrap#queryByNameResult(String)}
-     * found connections 10 lines found 10 path
-     * FIXME later samples.stream().findFirst().ifPresent(s -> result.getExt().put("rid", s.getRid()));
      */
+    @Ignore
     @Test
     public void saveAndQuery(){
         int actual = TestConfig.getDefault()
@@ -287,11 +340,6 @@ public class SofaTaintTest {
         Assert.assertEquals(10, actual);
     }
     /**
-     * {@link SampleFacadeImplWrap#saveSampleByResult2()}
-     * {@link SampleFacadeImplWrap#queryByNameResult2()}
-     * 误报  SampleDOSubSource -> SampleDOSubSink
-     * 预期  SampleDOSubSource -> SampleResultWrapSink
-     *      SampleResultWrapSource -> SampleDOSubSink （漏报）
      *      2020.2.13 pass
      */
     @Test

@@ -12,7 +12,8 @@ public class PassByScopeTest {
         int actual = TestConfig.getDefault()
                 .setResultRootDir("./work/PassByScopeTest#testScope")
                 .rewriteEntrypoints("<" + PassByScope.class.getName() + ": void testScope()>\n")
-                .setDumpCg(true).setDumpJimple(true)
+                .setLogLevelDebug(true)
+                .setDumpJimple(true)
                 .run().getResultSize();
         Assert.assertEquals(1, actual);
     }
@@ -21,7 +22,6 @@ public class PassByScopeTest {
         int actual = TestConfig.getDefault()
                 .setResultRootDir("./work/PassByScopeTest#testScope1")
                 .rewriteEntrypoints("<" + PassByScope.class.getName() + ": void testScope1()>\n")
-                .setDumpCg(true).setDumpJimple(true)
                 .run().getResultSize();
         Assert.assertEquals(1, actual);
     }
@@ -30,7 +30,24 @@ public class PassByScopeTest {
         int actual = TestConfig.getDefault()
                 .setResultRootDir("./work/PassByScopeTest#testScope2")
                 .rewriteEntrypoints("<" + PassByScope.class.getName() + ": void testScope2()>\n")
-                .setDumpCg(true).setDumpJimple(true)
+                .run().getResultSize();
+        Assert.assertEquals(1, actual);
+    }
+    @Test
+    public void testScopeResultWithoutResult() {
+        int actual = TestConfig.getDefault()
+                .setResultRootDir("./work/PassByScopeTest#testScopeResultWithoutResult")
+                .rewriteEntrypoints("<" + PassByScope.class.getName() + ": void testScopeResultWithoutResult()>\n")
+                .setLogLevelDebug(true)
+                .run().getResultSize();
+        Assert.assertEquals(1, actual);
+    }
+    @Test
+    public void testScopeResultWithoutResult2() {
+        int actual = TestConfig.getDefault()
+                .setResultRootDir("./work/PassByScopeTest#testScopeResultWithoutResult2")
+                .rewriteEntrypoints("<" + PassByScope.class.getName() + ": void testScopeResultWithoutResult2()>\n")
+                .setLogLevelDebug(true)
                 .run().getResultSize();
         Assert.assertEquals(1, actual);
     }
